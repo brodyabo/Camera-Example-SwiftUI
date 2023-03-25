@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Camera SwiftUI
 //
-//  Created by Brody Abowitz on 3/17/23.
+//  Created by Brody Abowitz on 3/16/23.
 //
 
 import SwiftUI
@@ -58,6 +58,7 @@ struct ContentView: View {
                     .padding()
                 }
                 HStack{
+                   
                     Button("Sepia"){
                         if let inputImage = selectedImage{
                             let beginImage = CIImage(image: inputImage)
@@ -72,7 +73,70 @@ struct ContentView: View {
                             }
                         }
                     }
+                    
+                    Button("BoxBlur"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.boxBlur()
+                            currentFilter.inputImage = beginImage
+                            currentFilter.radius = 40
+                            
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage:cgImage)
+                                self.selectedImage = uiImage
+                            }
                 }
+                        
+            }
+                    
+                    Button("CIThermal"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.thermal()
+                            currentFilter.inputImage = beginImage
+                            
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage:cgImage)
+                                self.selectedImage = uiImage
+                            }
+                }
+                        
+            }
+                    
+                    Button("XRay"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.xRay()
+                            currentFilter.inputImage = beginImage
+                            
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage:cgImage)
+                                self.selectedImage = uiImage
+                            }
+                }
+                        
+            }
+                    
+                    Button("Chrome"){
+                        if let inputImage = selectedImage{
+                            let beginImage = CIImage(image: inputImage)
+                            let currentFilter = CIFilter.photoEffectChrome()
+                            currentFilter.inputImage = beginImage
+                            
+                            guard let outputImage = currentFilter.outputImage else { return }
+                            if let cgImage = context.createCGImage(outputImage, from: outputImage.extent){
+                                let uiImage = UIImage(cgImage:cgImage)
+                                self.selectedImage = uiImage
+                            }
+                }
+                        
+            }
+                    
+                }
+               
             }.sheet(isPresented: self.$displayPickerView) {
                 ImagePickerView(selectedImage: self.$selectedImage, sourceType: self.sourceType)
             }
@@ -85,4 +149,5 @@ struct ContentView: View {
         }
     }
 }
+
 
